@@ -1,8 +1,14 @@
+module Searchable
+    
+
+end
+
 class PolyTreeNode
+    include Searchable
 
     attr_reader :value, :parent
 
-    def initialize(value)
+    def initialize(value = nil)
         @value = value
         @parent = nil
         @children = []
@@ -21,6 +27,22 @@ class PolyTreeNode
         self
     end
 
+    def children
+        @children.dup
+    end
+
+    def add_child(child)
+        child.parent = self
+    end
+
+    def remove_child(child)
+        if child && !self.children.include?(child)
+            raise "Tried to remove node that isn't a child"
+        end
+
+        child.parent = nil
+    end
+
 
     protected
 
@@ -28,6 +50,3 @@ class PolyTreeNode
         @children
     end
 end
-
-
-
